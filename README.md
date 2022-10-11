@@ -1,29 +1,20 @@
-# slackblocks <img src="https://github.com/nicklambourne/slackblocks/raw/master/docs/img/sb.png" align="right" width="250px"/>
+# slackblocks
+
 
 ![PyPI - License](https://img.shields.io/pypi/l/slackblocks)
-![Python Versions](https://img.shields.io/pypi/pyversions/slackblocks)
-![PyPI](https://img.shields.io/pypi/v/slackblocks?color=yellow&label=PyPI&logo=python&logoColor=white)
-[![Downloads](https://pepy.tech/badge/slackblocks)](https://pepy.tech/project/slackblocks)
-[![Build Status](https://api.travis-ci.org/nicklambourne/slackblocks.svg?branch=master)](https://travis-ci.org/github/nicklambourne/slackblocks)
-[![Coverage Status](https://coveralls.io/repos/github/nicklambourne/slackblocks/badge.svg?branch=master)](https://coveralls.io/github/nicklambourne/slackblocks?branch=master)
 
-## What is it?
+This is a fork of [**this**](https://github.com/nicklambourne/slackblocks) awesome package made by @nicklambourne.
+
+<hr>
 
 `slackblocks` is a Python API for building messages in the fancy new Slack Block Kit API.
 
-It was created by [Nicholas Lambourne](https://github.com/nicklambourne) for the [UQCS Slack Bot](https://github.com/UQComputingSociety/uqcsbot) because he hates writing JSON.
-
-N.B: This is still WIP software and some of the more tricky interactive Block elements have yet to be implemented.
-
-## Requirements
-`slackblocks` requires Python >= 3.6.
-
-As of version 0.1.0 it has no dependencies outside the Python standard library.
+_This package requires `Python 3.10`_
 
 ## Installation
 
 ```bash
-pip install slackblocks
+pip install git+https://github.com/vlaex/slackblocks.git
 ```
 
 ## Usage
@@ -33,7 +24,7 @@ from slackblocks import Message, SectionBlock
 
 
 block = SectionBlock("Hello, world!")
-message = Message(channel="#general", blocks=block)
+message = Message(blocks=block)
 message.json()
 
 ```
@@ -41,8 +32,6 @@ message.json()
 Will produce the following JSON string:
 ```json
 {
-    "channel": "#general",
-    "mrkdwn": true,
     "blocks": [
         {
             "type": "section",
@@ -56,9 +45,9 @@ Will produce the following JSON string:
     ]
 }
 ```
-Which can be sent as payload to the Slack message API HTTP endpoints.
+which can be sent as payload to the Slack message API HTTP endpoints.
 
-Of more practical uses is the ability to unpack the objects directly into 
+You can unpack the objects directly into 
 the Python Slack Client in order to send messages:
 ```python
 from os import environ
@@ -74,7 +63,3 @@ response = client.chat_postMessage(**message)
 ```
 
 Note the `**` operator in front of the `message` object.
-
-## Can I use this in my project?
-
-Yes, please do! The code is all open source and BSD-3.0 licensed.

@@ -1,6 +1,4 @@
 {
-    "channel": "#slackblocks",
-    "mrkdwn": true,
     "blocks": [
         {
             "type": "section",

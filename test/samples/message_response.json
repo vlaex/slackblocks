@@ -1,5 +1,4 @@
 {
-    "mrkdwn": true,
     "blocks": [
         {
             "type": "section",
@@ -11,7 +10,5 @@
             }
         }
     ],
-    "text": "",
-    "replace_original": false,
-    "response_type": "ephemeral"
+    "text": ""
 }
