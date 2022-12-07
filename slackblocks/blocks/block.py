@@ -1,5 +1,5 @@
 from enum import Enum
-from uuid import uuid4
+from ..utils import generate_uuid
 from ..entry_with_mapping import EntryWithMapping
 
 
@@ -22,7 +22,7 @@ class Block(EntryWithMapping):
 
     def __init__(self, type_: BlockType, block_id: str | None = None):
         self.type = type_
-        self.block_id = block_id if block_id else str(uuid4())
+        self.block_id = block_id if block_id else generate_uuid()
 
     def __add__(self, other: "Block"):
         return [self, other]
