@@ -36,7 +36,7 @@ class Modal(EntryWithMapping):
         view["title"] = Text(self.title, type_=TextType.PLAINTEXT).resolve()
 
         if self.submit:
-            view["submit"] = Text(self.submit, type_=TextType().PLAINTEXT).resolve()
+            view["submit"] = Text(self.submit, type_=TextType.PLAINTEXT).resolve()
 
         modal = {}
 
