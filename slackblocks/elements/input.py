@@ -7,9 +7,9 @@ class Input(Element):
 
     def __init__(
         self,
-        action_id: str,
         label: str,
-        placeholder: str,
+        action_id: str | None = None,
+        placeholder: str | None = None,
         initial_value: Optional[str] = None,
         multiline: Optional[bool] = False,
         dispatch_action: Optional[bool] = False,
@@ -17,9 +17,12 @@ class Input(Element):
     ):
         super().__init__(type_=ElementType.INPUT)
 
-        self.action_id = action_id
+        if placeholder:
+            self.placeholder = Text(placeholder, type_=TextType.PLAINTEXT, emoji=True)
+        if action_id:
+            self.action_id = action_id
+
         self.label_text = Text(label, type_=TextType.PLAINTEXT, emoji=True)
-        self.placeholder = Text(placeholder, type_=TextType.PLAINTEXT, emoji=True)
         self.multiline = multiline
         self.initial_value = initial_value
         self.dispatch_action = dispatch_action
@@ -29,15 +32,17 @@ class Input(Element):
         input_element = self._attributes() | {
             "element": {
                 "type": "plain_text_input",
-                "action_id": self.action_id,
-                "placeholder": self.placeholder.resolve(),
-                "multiline": self.multiline,
+                "multiline": self.multiline
             },
             "optional": self.optional,
             "label": self.label_text.resolve(),
             "dispatch_action": self.dispatch_action
         }
 
+        if hasattr(self, "placeholder"):
+            input_element["element"]["placeholder"] = self.placeholder.resolve()
+        if hasattr(self, "action_id"):
+            input_element["action_id"] = self.action_id
         if self.initial_value:
             input_element["initial_value"] = self.initial_value
 
