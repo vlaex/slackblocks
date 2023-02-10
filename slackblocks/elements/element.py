@@ -13,6 +13,7 @@ class ElementType(Enum):
     BUTTON = "button"
     CONFIRM = "confirm"
     INPUT = "input"
+    CONVERSATIONS_SELECT = "conversations_select"
 
 
 class Element(EntryWithMapping):
