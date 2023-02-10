@@ -12,7 +12,8 @@ class Input(Element):
         placeholder: str,
         initial_value: Optional[str] = None,
         multiline: Optional[bool] = False,
-        dispatch_action: Optional[bool] = False
+        dispatch_action: Optional[bool] = False,
+        optional: Optional[bool] = False
     ):
         super().__init__(type_=ElementType.INPUT)
 
@@ -22,6 +23,7 @@ class Input(Element):
         self.multiline = multiline
         self.initial_value = initial_value
         self.dispatch_action = dispatch_action
+        self.optional = optional
 
     def resolve(self) -> dict[str, Any]:
         input_element = self._attributes() | {
@@ -31,6 +33,7 @@ class Input(Element):
                 "placeholder": self.placeholder.resolve(),
                 "multiline": self.multiline,
             },
+            "optional": self.optional,
             "label": self.label_text.resolve(),
             "dispatch_action": self.dispatch_action
         }
