@@ -8,7 +8,7 @@ production_requirements = []
 
 setup(
     name="slackblocks",
-    version="1.0.2",
+    version="1.0.3",
     author="vlaex & Nicholas Lambourne (original author)",
     author_email="nick@ndl.im",
     description="Python wrapper for the Slack Blocks API",
