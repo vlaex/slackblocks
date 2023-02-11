@@ -26,7 +26,7 @@ class Input(Element):
     ):
         super().__init__(type_=ElementType.INPUT)
 
-        self.input_type = input_type.value
+        self.input_type = input_type
         self.block_id = block_id
         self.action_id = action_id
         self.label_text = Text(label, type_=TextType.PLAINTEXT, emoji=True)
@@ -39,23 +39,24 @@ class Input(Element):
             self.placeholder = Text(placeholder, type_=TextType.PLAINTEXT, emoji=True)
 
     def resolve(self) -> dict[str, Any]:
-        input_element = self._attributes() | {
+        input = self._attributes() | {
             "block_id": self.block_id,
             "element": {
-                "type": self.input_type,
-                "multiline": self.multiline
+                "type": self.input_type.value
             },
             "optional": self.optional,
             "label": self.label_text.resolve(),
             "dispatch_action": self.dispatch_action
         }
 
+        if self.input_type == InputElementType.PLAIN_TEXT_INPUT:
+            input["element"]["multiline"] = self.multiline
+
         if hasattr(self, "placeholder"):
-            input_element["element"]["placeholder"] = self.placeholder.resolve()
-
+            input["element"]["placeholder"] = self.placeholder.resolve()
         if self.action_id:
-            input_element["action_id"] = self.action_id
+            input["action_id"] = self.action_id
         if self.initial_value:
-            input_element["initial_value"] = self.initial_value
+            input["initial_value"] = self.initial_value
 
-        return input_element
+        return input
