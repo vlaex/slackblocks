@@ -1,12 +1,21 @@
+from enum import Enum
 from typing import Any, Optional
 from . import Element, ElementType, Text, TextType
 
 
+class InputElementType(Enum):
+    PLAIN_TEXT_INPUT = "plain_text_input"
+    URL_TEXT_INPUT = "url_text_input"
+    EMAIL_TEXT_INPUT = "email_text_input"
+
+
 class Input(Element):
-    """An interactive element that inserts a plain-text input element."""
+    """An interactive element that inserts an input element."""
 
     def __init__(
         self,
+        input_type: InputElementType,
+        block_id: str,
         label: str,
         action_id: str | None = None,
         placeholder: str | None = None,
@@ -17,21 +26,23 @@ class Input(Element):
     ):
         super().__init__(type_=ElementType.INPUT)
 
-        if placeholder:
-            self.placeholder = Text(placeholder, type_=TextType.PLAINTEXT, emoji=True)
-        if action_id:
-            self.action_id = action_id
-
+        self.input_type = input_type.value
+        self.block_id = block_id
+        self.action_id = action_id
         self.label_text = Text(label, type_=TextType.PLAINTEXT, emoji=True)
         self.multiline = multiline
         self.initial_value = initial_value
         self.dispatch_action = dispatch_action
         self.optional = optional
 
+        if placeholder:
+            self.placeholder = Text(placeholder, type_=TextType.PLAINTEXT, emoji=True)
+
     def resolve(self) -> dict[str, Any]:
         input_element = self._attributes() | {
+            "block_id": self.block_id,
             "element": {
-                "type": "plain_text_input",
+                "type": self.input_type,
                 "multiline": self.multiline
             },
             "optional": self.optional,
@@ -41,7 +52,8 @@ class Input(Element):
 
         if hasattr(self, "placeholder"):
             input_element["element"]["placeholder"] = self.placeholder.resolve()
-        if hasattr(self, "action_id"):
+
+        if self.action_id:
             input_element["action_id"] = self.action_id
         if self.initial_value:
             input_element["initial_value"] = self.initial_value
