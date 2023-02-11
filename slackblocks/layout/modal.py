@@ -2,7 +2,6 @@ from typing import Optional
 from ..blocks import Block
 from ..elements import Text, TextType
 from ..entry_with_mapping import EntryWithMapping
-from ..utils import generate_uuid
 
 
 class Modal(EntryWithMapping):
@@ -11,7 +10,8 @@ class Modal(EntryWithMapping):
     """
 
     def __init__(
-        self, 
+        self,
+        callback_id: str,
         title: str,
         blocks: list[Block],
         submit_text: Optional[str] = None,
@@ -25,12 +25,13 @@ class Modal(EntryWithMapping):
         self.view_id = view_id
         self.view_hash = view_hash
         self.trigger_id = trigger_id
+        self.callback_id = callback_id
 
     def resolve(self) -> dict[str, str | dict]:
         view = {
             "blocks": [block.resolve() for block in self.blocks],
             "type": "modal",
-            "callback_id": generate_uuid()
+            "callback_id": self.callback_id
         }
 
         view["title"] = Text(self.title, type_=TextType.PLAINTEXT).resolve()
