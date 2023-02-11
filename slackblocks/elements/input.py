@@ -7,6 +7,8 @@ class InputElementType(Enum):
     PLAIN_TEXT_INPUT = "plain_text_input"
     URL_TEXT_INPUT = "url_text_input"
     EMAIL_TEXT_INPUT = "email_text_input"
+    DATETIMEPICKER = "datetimepicker"
+    CONVERSATIONS_SELECT = "conversations_select"
 
 
 class Input(Element):
