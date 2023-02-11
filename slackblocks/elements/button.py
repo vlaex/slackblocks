@@ -8,7 +8,7 @@ class Button(Element):
     def __init__(
         self,
         text: str,
-        action_id: str,
+        action_id: Optional[str] = None,
         url: Optional[str] = None,
         value: Optional[str] = None,
         style: Optional[str] = None,
@@ -26,8 +26,9 @@ class Button(Element):
     def resolve(self) -> dict[str, Any]:
         button = self._attributes()
         button["text"] = self.text.resolve()
-        button["action_id"] = self.action_id
 
+        if self.action_id:
+            button["action_id"] = self.action_id
         if self.style:
             button["style"] = self.style
         if self.url:
