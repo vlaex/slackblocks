@@ -7,7 +7,10 @@ class InputElementType(Enum):
     PLAIN_TEXT_INPUT = "plain_text_input"
     URL_TEXT_INPUT = "url_text_input"
     EMAIL_TEXT_INPUT = "email_text_input"
+    NUMBER_INPUT = "number_input"
+    DATEPICKER = "datepicker"
     DATETIMEPICKER = "datetimepicker"
+    TIMEPICKER = "timepicker"
     CONVERSATIONS_SELECT = "conversations_select"
 
 
@@ -24,7 +27,8 @@ class Input(Element):
         initial_value: Optional[str] = None,
         multiline: Optional[bool] = False,
         dispatch_action: Optional[bool] = False,
-        optional: Optional[bool] = False
+        optional: Optional[bool] = False,
+        is_decimal_allowed: Optional[bool] = None
     ):
         super().__init__(type_=ElementType.INPUT)
 
@@ -36,9 +40,12 @@ class Input(Element):
         self.initial_value = initial_value
         self.dispatch_action = dispatch_action
         self.optional = optional
+        self.is_decimal_allowed = is_decimal_allowed
 
         if placeholder:
             self.placeholder = Text(placeholder, type_=TextType.PLAINTEXT, emoji=True)
+        if is_decimal_allowed is not None:
+            self.is_decimal_allowed = is_decimal_allowed
 
     def resolve(self) -> dict[str, Any]:
         input = self._attributes() | {
@@ -56,6 +63,8 @@ class Input(Element):
 
         if hasattr(self, "placeholder"):
             input["element"]["placeholder"] = self.placeholder.resolve()
+        if hasattr(self, "is_decimal_allowed"):
+            input["element"]["is_decimal_allowed"] = self["is_decimal_allowed"]
         if self.action_id:
             input["action_id"] = self.action_id
         if self.initial_value:
