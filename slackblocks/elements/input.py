@@ -40,7 +40,6 @@ class Input(Element):
         self.initial_value = initial_value
         self.dispatch_action = dispatch_action
         self.optional = optional
-        self.is_decimal_allowed = is_decimal_allowed
 
         if placeholder:
             self.placeholder = Text(placeholder, type_=TextType.PLAINTEXT, emoji=True)
@@ -64,7 +63,7 @@ class Input(Element):
         if hasattr(self, "placeholder"):
             input["element"]["placeholder"] = self.placeholder.resolve()
         if hasattr(self, "is_decimal_allowed"):
-            input["element"]["is_decimal_allowed"] = self["is_decimal_allowed"]
+            input["element"]["is_decimal_allowed"] = self.is_decimal_allowed
         if self.action_id:
             input["action_id"] = self.action_id
         if self.initial_value:
